@@ -78,102 +78,87 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      //loop through
-      //if a row has more than one value
-      //return true
-      //otherwise you're clear
 
       var row = this.get(rowIndex);
-      console.log(row);
-      // var sum = row.reduce(function(tally, item){
-      //   return tally + item;
-      // });
-      //
-      var sum = 0;
-      for (var i = 0; i < row.length; i++){
-        sum = sum + row[i];
-      }
+      var sum = row.reduce(function(tally, item){
+        return tally + item;
+      });
 
-      // reduce row to a sum. if > 1, there is a row confict.
-      // if sum is 1 return false
-      // if sum is 0 return false
-      // if sum > 1 return true
-      console.log('sum',sum);
       return sum > 1 ? true : false;
     },
 
-    // test if any rows on this board contain conflicts
+
     hasAnyRowConflicts: function() {
-      //how do we know how many rows??
-
       var n = this.get(0).length;
-      console.log(n);
-
-      //run hasRowConflictAt for all rows on the board
       for (var i = 0; i < n; i++) {
-
         if (this.hasRowConflictAt(i)) {
           return true;
         }
       }
-      //return true if that's true
-
-
-    // test if any rows on this board contain conflicts
-    // iterate over each row and call hasRowConflictAt
-      return false; // fixme
+      return false;
     },
-
-
-
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      //how do we get n?
 
-      //if a column has more than one value
+      var n = this.get(0).length;
+      var column = this.rows().map(function(row, index) {
+        return row[colIndex];
+      });
+      var sum = column.reduce(function(tally, item) {
+        return tally + item;
+      });
 
-      //loop through columns
-      //count board.row[i].colIndex
-      //if more than one, return true
-      //otherwise you're clear
-
-       // var n = board.get.row(0).length;
-      // optional: var column = map board.rows(i)[colIndex]
-      // reduce board.get.row(0)[colIndex]-->row.get.row(n)[colIndex] to a sum.
-        // if > 1, there's a conflict
-      return false; // fixme
+      return sum > 1 ? true : false;
     },
 
-    // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var n = this.get(0).length;
+      for (var i = 0; i < n; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
-
-
-
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
+    // ---
+    //    ----
+    //        ----
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var counter = -1;
+      var majorDiagonal = this.rows().map(function(row, index) {
+        counter++;
+        return row[majorDiagonalColumnIndexAtFirstRow+counter] || 0;
+      });
+      var sum = majorDiagonal.reduce(function(tally, item){
+        return tally + item;
+      });
+
+      return sum > 1 ? true : false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var n = this.get(0).length;
+      for (var i = 0; i < n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
-
-
-
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
