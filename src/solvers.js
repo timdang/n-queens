@@ -44,7 +44,7 @@ window.findNRooksSolution = function(n) {
   };
 
   checkAndPlace(0);
-  
+
   return solution.rows();
 
 };
@@ -90,57 +90,25 @@ window.findNQueensSolution = function(n) {
   var board = new Board({
     'n': n
   });
+  var solution = board.rows();
 
-  var result;
-
-  var newCheckFunction = function(currentRow, i) {
-
-    if (n === 0) {
-
-    }
-
-    i = i || 0;
+  var newCheckFunction = function(currentRow) {
     if (currentRow === n) {
-      // base case
-      return;
+      return solution = _.map(board.rows(), function(row) {
+        return row.slice();
+      });
     }
-    for (; i < n; i++) {
+    for (var i = 0; i < n; i++) {
       board.togglePiece(currentRow, i);
       if (!board.hasAnyQueenConflictsOn(currentRow, i)) {
         newCheckFunction(currentRow + 1);
       }
-      if (board.hasAnyQueensConflicts()) {
-        board.togglePiece(currentRow, i);
-      }
+      board.togglePiece(currentRow, i);
     }
   };
-  // place next piece in new column
-  for (var j = 0; j < n; j++) {
-    board = new Board({
-      'n': n
-    });
-    newCheckFunction(0, j);
-    console.log(board.rows());
-    if (!board.hasAnyQueensConflicts() && _.flatten(board.rows()).reduce(function(a, b) {
-        return a + b;
-      }) === n) {
-      return board.rows();
-    }
-  }
 
-  for (var k = 0; k < n; k++) {
-    board = new Board({
-      'n': n
-    });
-    newCheckFunction(k);
-    console.log(board.rows());
-    if (!board.hasAnyQueensConflicts() && _.flatten(board.rows()).reduce(function(a, b) {
-        return a + b;
-      }) === n) {
-      return board.rows();
-    }
-  }
-
+  newCheckFunction(0);
+  return solution;
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
